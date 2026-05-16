@@ -1,0 +1,98 @@
+/* Prose: styles for MDX content in NoteLayout */
+.prose {
+  max-width: var(--measure);
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.prose h2 {
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: 0.3em;
+}
+
+.prose h3 {
+  font-size: 1.25rem;
+  color: var(--color-text-muted);
+}
+
+.prose > *:first-child {
+  margin-top: 0;
+}
+
+.prose p + blockquote,
+.prose blockquote + p {
+  margin-top: 1.5em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+
+.prose th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.5em 0.75em;
+  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.prose td {
+  padding: 0.5em 0.75em;
+  border-bottom: 1px solid var(--color-border-light);
+  vertical-align: top;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+/* Footnotes */
+.prose .footnotes {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.prose .footnotes ol {
+  padding-left: 1.25em;
+}
+
+.prose .footnotes p {
+  margin-bottom: 0.5em;
+}
+
+/* Lead paragraph */
+.prose .lead {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 2em;
+}
+
+/* Image captions */
+.prose figure {
+  margin: 2rem 0;
+}
+
+.prose figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-faint);
+  text-align: center;
+  margin-top: 0.5rem;
+}

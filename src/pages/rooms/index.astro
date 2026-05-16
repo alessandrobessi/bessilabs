@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import RoomCard from '../../components/RoomCard.astro';
+import { getCollection } from 'astro:content';
+import { ROOMS } from '../../lib/rooms';
+import { noteSlug } from '../../lib/content';
+
+const allNotes = (await getCollection('notes'))
+  .filter((n) => n.data.visibility === 'public')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const roomsWithLatest = ROOMS.map((room) => {
+  const latest = allNotes.find((n) => n.data.room === room.slug);
+  return {
+    room,
+    latestNote: latest ? { title: latest.data.title, id: noteSlug(latest) } : undefined,
+  };
+});
+---
+
+<BaseLayout
+  title="Rooms"
+  description="The seven rooms of Bessi Labs — computation, perception, chess, music, body, philosophy, and field notes."
+>
+  <div class="container">
+    <header class="rooms-header">
+      <h1>Rooms of the Lab</h1>
+      <p class="muted">
+        The lab is organized into seven rooms. Each room is a domain of study with its own materials, methods, and questions. The underlying discipline is one.
+      </p>
+    </header>
+    <div class="rooms-grid">
+      {roomsWithLatest.map(({ room, latestNote }) => (
+        <RoomCard room={room} latestNote={latestNote} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .rooms-header {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    max-width: var(--measure);
+  }
+
+  .rooms-header h1 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .rooms-header p {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-md);
+    padding-bottom: var(--space-xl);
+  }
+</style>

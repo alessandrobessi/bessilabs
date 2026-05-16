@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { getCollection } from 'astro:content';
+import { ROOMS } from '../../lib/rooms';
+
+const url = Astro.url;
+const filterRoom = url.searchParams.get('room') || '';
+const filterType = url.searchParams.get('type') || '';
+
+const allNotes = (await getCollection('notes'))
+  .filter((n) => n.data.visibility === 'public')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const filtered = allNotes.filter((n) => {
+  if (filterRoom && n.data.room !== filterRoom) return false;
+  if (filterType && n.data.type !== filterType) return false;
+  return true;
+});
+
+const types = ['essay', 'lab-note', 'study', 'artifact', 'log'] as const;
+
+function filterURL(params: Record<string, string>) {
+  const u = new URL('/notes', 'https://x');
+  if (params.room) u.searchParams.set('room', params.room);
+  if (params.type) u.searchParams.set('type', params.type);
+  return u.pathname + u.search;
+}
+---
+
+<BaseLayout
+  title="Notes"
+  description="Essays, studies, lab notes, and logs across computation, chess, music, drawing, endurance, and philosophy."
+>
+  <div class="container">
+    <header class="notes-header">
+      <h1>Notes</h1>
+      <p class="notes-header__desc muted">
+        Essays, studies, lab notes, and logs from across the lab.
+        {filtered.length !== allNotes.length
+          ? ` Showing ${filtered.length} of ${allNotes.length}.`
+          : ` ${allNotes.length} in total.`}
+      </p>
+    </header>
+
+    <!-- Filters -->
+    <form class="filters" method="get" action="/notes">
+      <div class="filters__group">
+        <label class="filters__label mono" for="filter-room">Room</label>
+        <select id="filter-room" name="room" onchange="this.form.submit()">
+          <option value="" selected={!filterRoom}>All rooms</option>
+          {ROOMS.map((r) => (
+            <option value={r.slug} selected={filterRoom === r.slug}>{r.name}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="filters__group">
+        <label class="filters__label mono" for="filter-type">Type</label>
+        <select id="filter-type" name="type" onchange="this.form.submit()">
+          <option value="" selected={!filterType}>All types</option>
+          {types.map((t) => (
+            <option value={t} selected={filterType === t}>{t}</option>
+          ))}
+        </select>
+      </div>
+
+      {(filterRoom || filterType) && (
+        <a href="/notes" class="filters__clear mono">Clear</a>
+      )}
+
+      <noscript>
+        <button type="submit" class="mono">Filter</button>
+      </noscript>
+    </form>
+
+    <!-- Notes list -->
+    {filtered.length === 0 ? (
+      <p class="muted">No notes match these filters.</p>
+    ) : (
+      <div class="notes-list">
+        {filtered.map((note) => (
+          <NoteCard note={note} />
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .notes-header {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-md);
+  }
+
+  .notes-header h1 {
+    margin-bottom: var(--space-xs);
+  }
+
+  .notes-header__desc {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) 0;
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .filters__group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .filters__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+
+  select {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 0.3em 0.75em;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b6866'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5em center;
+    padding-right: 1.75em;
+  }
+
+  select:focus {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .filters__clear {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-left: auto;
+  }
+
+  .filters__clear:hover {
+    color: var(--color-text);
+  }
+
+  noscript button {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    padding: 0.3em 0.75em;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: none;
+    cursor: pointer;
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: var(--space-xl);
+  }
+</style>

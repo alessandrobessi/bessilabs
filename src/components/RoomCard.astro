@@ -1,0 +1,108 @@
+---
+import type { Room } from '../lib/rooms';
+
+interface Props {
+  room: Room;
+  latestNote?: { title: string; id: string } | undefined;
+}
+
+const { room, latestNote } = Astro.props;
+---
+
+<article class="room-card">
+  <a href={`/rooms/${room.slug}`} class="room-card__link" tabindex="-1" aria-hidden="true"></a>
+  <div class="room-card__header">
+    <h2 class="room-card__name">
+      <a href={`/rooms/${room.slug}`}>{room.name}</a>
+    </h2>
+  </div>
+  <p class="room-card__tagline">{room.tagline}</p>
+  <ul class="room-card__themes" aria-label="Themes">
+    {room.themes.slice(0, 4).map((theme) => (
+      <li>{theme}</li>
+    ))}
+  </ul>
+  {latestNote && (
+    <div class="room-card__latest">
+      <span class="mono muted" style="font-size:0.7rem">Latest →</span>
+      <a href={`/notes/${latestNote.id}`} class="room-card__latest-link">{latestNote.title}</a>
+    </div>
+  )}
+</article>
+
+<style>
+  .room-card {
+    position: relative;
+    padding: var(--space-md);
+    background-color: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    transition: border-color var(--transition);
+  }
+
+  .room-card:hover {
+    border-color: var(--color-accent);
+  }
+
+  .room-card__name {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .room-card__name a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .room-card__name a:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .room-card__tagline {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .room-card__themes {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-xs) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .room-card__themes li {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-faint);
+    background-color: var(--color-bg-alt);
+    padding: 0.15em 0.5em;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0;
+  }
+
+  .room-card__latest {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .room-card__latest-link {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .room-card__latest-link:hover {
+    color: var(--color-accent-dark);
+  }
+</style>

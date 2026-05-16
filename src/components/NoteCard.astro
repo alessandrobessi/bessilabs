@@ -1,0 +1,77 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { ROOMS } from '../lib/rooms';
+import { noteURL } from '../lib/content';
+
+interface Props {
+  note: CollectionEntry<'notes'>;
+}
+
+const { note } = Astro.props;
+const { title, date, room, type, summary } = note.data;
+const roomData = ROOMS.find((r) => r.slug === room);
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<article class="note-card">
+  <div class="note-card__meta">
+    <time datetime={date.toISOString()} class="mono muted note-card__date">{formattedDate}</time>
+    {roomData && (
+      <a href={`/rooms/${room}`} class="room-pill">{roomData.name}</a>
+    )}
+    <span class="type-label">{type}</span>
+  </div>
+  <h2 class="note-card__title">
+    <a href={noteURL(note)}>{title}</a>
+  </h2>
+  <p class="note-card__summary">{summary}</p>
+</article>
+
+<style>
+  .note-card {
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  .note-card:last-child {
+    border-bottom: none;
+  }
+
+  .note-card__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-bottom: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .note-card__date {
+    font-size: 0.75rem;
+  }
+
+  .note-card__title {
+    font-size: 1.35rem;
+    margin-bottom: 0.4rem;
+    margin-top: 0;
+  }
+
+  .note-card__title a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .note-card__title a:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .note-card__summary {
+    color: var(--color-text-muted);
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    max-width: var(--measure);
+  }
+</style>

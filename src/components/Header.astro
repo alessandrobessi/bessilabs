@@ -1,0 +1,99 @@
+---
+import { NAV, SITE } from '../lib/config';
+const { pathname } = Astro.url;
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="site-header__name" aria-label={SITE.title + ' — home'}>
+      Bessi Labs
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <ul role="list">
+        {NAV.map(({ label, href }) => (
+          <li>
+            <a
+              href={href}
+              class={pathname === href || pathname.startsWith(href + '/') ? 'active' : ''}
+              aria-current={pathname === href ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-md) 0;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-bg);
+    z-index: 10;
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+  }
+
+  .site-header__name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .site-header__name:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .site-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .site-nav a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-text-muted);
+    transition: color var(--transition);
+  }
+
+  .site-nav a:hover,
+  .site-nav a.active {
+    color: var(--color-text);
+  }
+
+  .site-nav a.active {
+    color: var(--color-accent-dark);
+  }
+
+  @media (max-width: 640px) {
+    .site-header__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-xs);
+    }
+
+    .site-nav ul {
+      gap: var(--space-sm);
+    }
+  }
+</style>

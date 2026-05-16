@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NoteCard from '../components/NoteCard.astro';
+import RoomCard from '../components/RoomCard.astro';
+import { getCollection } from 'astro:content';
+import { ROOMS } from '../lib/rooms';
+import { SITE, SOCIAL } from '../lib/config';
+import { noteURL, noteSlug } from '../lib/content';
+
+const allNotes = (await getCollection('notes'))
+  .filter((n) => n.data.visibility === 'public')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const featuredNotes = allNotes.filter((n) => n.data.featured);
+const latestNotes = allNotes.slice(0, 5);
+
+const roomsWithLatest = ROOMS.map((room) => {
+  const latest = allNotes.find((n) => n.data.room === room.slug);
+  return {
+    room,
+    latestNote: latest ? { title: latest.data.title, id: noteSlug(latest) } : undefined,
+  };
+});
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="hero container">
+    <h1 class="hero__name">Bessi Labs</h1>
+    <p class="hero__tagline">{SITE.description}</p>
+    <p class="hero__spine mono">{SITE.spine}</p>
+  </section>
+
+  <!-- Rooms -->
+  <section class="section container">
+    <h2 class="section__heading">Rooms of the Lab</h2>
+    <div class="rooms-grid">
+      {roomsWithLatest.map(({ room, latestNote }) => (
+        <RoomCard room={room} latestNote={latestNote} />
+      ))}
+    </div>
+  </section>
+
+  <!-- Featured -->
+  {featuredNotes.length > 0 && (
+    <section class="section container container--narrow">
+      <h2 class="section__heading">Featured</h2>
+      <div class="notes-list">
+        {featuredNotes.slice(0, 4).map((note) => (
+          <NoteCard note={note} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- Latest -->
+  <section class="section container container--narrow">
+    <h2 class="section__heading">Latest Notes</h2>
+    <div class="notes-list">
+      {latestNotes.map((note) => (
+        <NoteCard note={note} />
+      ))}
+    </div>
+    <div class="section__more">
+      <a href="/notes" class="mono">All notes →</a>
+    </div>
+  </section>
+
+  <!-- Personal link -->
+  <section class="section container personal-link">
+    <p class="mono muted">
+      Personal site: <a href={SOCIAL.personal} target="_blank" rel="noopener noreferrer">alessandrobessi.com</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+    max-width: 800px;
+  }
+
+  .hero__name {
+    font-size: 4rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-md);
+    line-height: 1;
+  }
+
+  .hero__tagline {
+    font-size: 1.2rem;
+    color: var(--color-text-muted);
+    max-width: 55ch;
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero__spine {
+    font-size: 0.82rem;
+    color: var(--color-text-faint);
+    max-width: 60ch;
+    margin-bottom: 0;
+  }
+
+  .section {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-lg);
+  }
+
+  .section__heading {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-lg);
+    font-weight: 400;
+  }
+
+  .rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section__more {
+    margin-top: var(--space-md);
+  }
+
+  .section__more a {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .section__more a:hover {
+    color: var(--color-text);
+  }
+
+  .personal-link {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .personal-link p {
+    font-size: 0.78rem;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 640px) {
+    .hero__name {
+      font-size: 2.75rem;
+    }
+  }
+</style>

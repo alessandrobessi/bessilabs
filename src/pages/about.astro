@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIAL, SITE } from '../lib/config';
+import '../styles/prose.css';
+---
+
+<BaseLayout
+  title="About"
+  description="Bessi Labs is the public laboratory of Alessandro Bessi — researcher, engineer, and practitioner across computation, chess, music, drawing, and physical discipline."
+>
+  <article class="container container--narrow about">
+    <header class="about-header">
+      <p class="mono muted about-header__label">About</p>
+      <h1>Bessi Labs</h1>
+    </header>
+
+    <div class="prose">
+      <p>
+        Bessi Labs is the public laboratory of <a href={SOCIAL.personal} target="_blank" rel="noopener noreferrer">Alessandro Bessi</a>.
+      </p>
+
+      <p>
+        The lab exists to make multidisciplinary serious work visible — across computation, infrastructure, chess, music, drawing, endurance, and philosophy.
+      </p>
+
+      <p>
+        The two sites are related but distinct. <a href={SOCIAL.personal} target="_blank" rel="noopener noreferrer">alessandrobessi.com</a> is the canonical identity page. Bessi Labs is the living archive — the place where the work is actually happening.
+      </p>
+
+      <p>
+        The goal is not to collect interests. The goal is to train perception across domains, accumulate serious work over time, and turn scattered ambition into visible form.
+      </p>
+
+      <h2>The lab</h2>
+
+      <p>The lab is organized into seven rooms:</p>
+
+      <ul>
+        <li><a href="/rooms/the-engine">Computation</a> — infrastructure, AI, systems, programming languages</li>
+        <li><a href="/rooms/the-eye">Drawing</a> — perception, form, visual discipline</li>
+        <li><a href="/rooms/the-board">Chess</a> — strategy, calculation, decision-making</li>
+        <li><a href="/rooms/the-ear">Music</a> — harmony, rhythm, piano, bass</li>
+        <li><a href="/rooms/the-body">Training</a> — endurance, strength, adaptation</li>
+        <li><a href="/rooms/the-inner-lab">Philosophy</a> — attention, identity, mastery</li>
+        <li><a href="/rooms/field-notes">Field Notes</a> — fragments and observations</li>
+      </ul>
+
+      <h2>Links</h2>
+    </div>
+
+    <nav class="about-links" aria-label="External profiles">
+      <a href={SOCIAL.personal} target="_blank" rel="noopener noreferrer" class="about-link">
+        <span class="about-link__label">Personal site</span>
+        <span class="mono muted about-link__url">alessandrobessi.com</span>
+      </a>
+      <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer" class="about-link">
+        <span class="about-link__label">GitHub</span>
+        <span class="mono muted about-link__url">github.com/alessandrobessi</span>
+      </a>
+      <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer" class="about-link">
+        <span class="about-link__label">LinkedIn</span>
+        <span class="mono muted about-link__url">linkedin.com/in/alessandrobessi</span>
+      </a>
+      <a href={SOCIAL.scholar} target="_blank" rel="noopener noreferrer" class="about-link">
+        <span class="about-link__label">Google Scholar</span>
+        <span class="mono muted about-link__url">Publications and research</span>
+      </a>
+      <a href="/rss.xml" class="about-link">
+        <span class="about-link__label">RSS Feed</span>
+        <span class="mono muted about-link__url">bessilabs.com/rss.xml</span>
+      </a>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+
+  .about-header {
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-header__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+  }
+
+  .about-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0;
+  }
+
+  .about-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-top: var(--space-md);
+  }
+
+  .about-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background-color: white;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border-light);
+    gap: var(--space-md);
+    transition: background-color var(--transition);
+  }
+
+  .about-link:last-child {
+    border-bottom: none;
+  }
+
+  .about-link:hover {
+    background-color: var(--color-accent-light);
+  }
+
+  .about-link__label {
+    font-size: 0.95rem;
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+
+  .about-link__url {
+    font-size: 0.75rem;
+    text-align: right;
+  }
+</style>

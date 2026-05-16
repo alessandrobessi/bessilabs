@@ -1,0 +1,82 @@
+---
+import { SITE, SOCIAL } from '../lib/config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__left">
+      <span class="site-footer__name">Bessi Labs</span>
+      <span class="site-footer__tagline">{SITE.shortDescription}</span>
+    </div>
+    <nav class="site-footer__links" aria-label="External links">
+      <a href={SOCIAL.personal} target="_blank" rel="noopener noreferrer">alessandrobessi.com</a>
+      <a href={SOCIAL.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href={SOCIAL.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="/rss.xml" aria-label="RSS feed">RSS</a>
+    </nav>
+  </div>
+  <div class="container site-footer__copy">
+    <span class="mono muted">&copy; {year} Alessandro Bessi</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-lg) 0 var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-md);
+  }
+
+  .site-footer__left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .site-footer__name {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .site-footer__tagline {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-faint);
+    max-width: 40ch;
+  }
+
+  .site-footer__links {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .site-footer__links a {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+
+  .site-footer__links a:hover {
+    color: var(--color-text);
+  }
+
+  .site-footer__copy {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

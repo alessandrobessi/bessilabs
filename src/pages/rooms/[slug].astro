@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import RoomLayout from '../../layouts/RoomLayout.astro';
+import NoteCard from '../../components/NoteCard.astro';
+import { ROOMS, getRoomBySlug } from '../../lib/rooms';
+
+export function getStaticPaths() {
+  return ROOMS.map((room) => ({
+    params: { slug: room.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const room = getRoomBySlug(slug!);
+
+if (!room) {
+  return Astro.redirect('/rooms');
+}
+
+const roomNotes = (await getCollection('notes'))
+  .filter((n) => n.data.room === room.slug && n.data.visibility === 'public')
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<RoomLayout room={room}>
+  {roomNotes.length === 0 ? (
+    <div class="room-empty">
+      <p class="mono muted">No notes in this room yet. Work is in progress.</p>
+    </div>
+  ) : (
+    <div class="room-notes">
+      <h2 class="room-notes__heading">Notes</h2>
+      <div class="notes-list">
+        {roomNotes.map((note) => (
+          <NoteCard note={note} />
+        ))}
+      </div>
+    </div>
+  )}
+</RoomLayout>
+
+<style>
+  .room-empty {
+    padding-bottom: var(--space-xl);
+  }
+
+  .room-notes {
+    padding-bottom: var(--space-xl);
+  }
+
+  .room-notes__heading {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    margin-bottom: var(--space-md);
+    font-weight: 400;
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--measure-wide);
+  }
+</style>
