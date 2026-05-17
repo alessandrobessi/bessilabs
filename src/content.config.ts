@@ -27,17 +27,4 @@ const notes = defineCollection({
   }),
 });
 
-const artifacts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/artifacts' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    room: roomSlug.optional(),
-    type: z.string(),
-    summary: z.string(),
-    tags: z.array(z.string()).default([]),
-    visibility: z.enum(['public', 'unlisted']).default('public'),
-  }),
-});
-
-export const collections = { notes, artifacts };
+export const collections = { notes };
