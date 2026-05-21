@@ -21,4 +21,5 @@ export const SOCIAL = {
   linkedin: 'https://linkedin.com/in/alessandrobessi',
   scholar: 'https://scholar.google.com/citations?user=alessandrobessi',
   strava: 'https://www.strava.com/athletes/168504447',
+  youtube: 'https://www.youtube.com/channel/UCcoBAuwQZM9TJ4EyIVQlyQg',
 };
