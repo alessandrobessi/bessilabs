@@ -16,14 +16,6 @@ export const ROOMS: Room[] = [
     themes: ['computation', 'SICP', 'programming languages', 'Linux', 'infrastructure', 'Kubernetes', 'AI', 'observability'],
   },
   {
-    name: 'Drawing',
-    slug: 'the-eye',
-    tagline: 'Drawing, perception, and visual discipline.',
-    description:
-      'A study of perception and the discipline of seeing. Negative space, form, proportion, anatomy, line quality — and the effort to see what is present instead of what the mind assumes.',
-    themes: ['drawing', 'perception', 'negative space', 'form', 'proportion', 'anatomy', 'line quality'],
-  },
-  {
     name: 'Chess',
     slug: 'the-board',
     tagline: 'Chess, strategy, and decision-making under constraint.',

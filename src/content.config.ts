@@ -3,7 +3,6 @@ import { glob } from 'astro/loaders';
 
 const roomSlug = z.enum([
   'the-engine',
-  'the-eye',
   'the-board',
   'the-ear',
   'the-body',

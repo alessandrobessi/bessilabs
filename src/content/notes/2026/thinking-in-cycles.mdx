@@ -1,0 +1,22 @@
+---
+title: "Thinking in Cycles"
+date: "2026-07-26"
+room: "the-engine"
+type: "artifact"
+tags:
+  - linux
+  - performance
+  - systems
+  - mental-models
+  - writing
+summary: "A practical, intuition-first guide to Linux performance engineering, paired with cyclelab, a CLI for generating controlled workloads and testing what a hypothesis-driven measurement actually proves."
+status: "field-note"
+featured: false
+visibility: "public"
+---
+
+Thinking in Cycles is a practical, intuition-first guide to Linux performance engineering. It builds a cumulative model of how workloads become processes and threads, how Linux schedules them, how CPUs execute instructions, how caches and memory shape performance, how topology and NUMA affect placement, and how tools like `perf`, flame graphs, BCC, and `bpftrace` reveal different parts of the system.
+
+Rather than teaching a list of commands, it teaches the discipline underneath them: define a workload, form a hypothesis, select the least invasive measurement, interpret the evidence, and prove whether an optimization actually helped. The companion `cyclelab` CLI generates the controlled workloads — compute, branch misprediction, memory access patterns, false sharing, lock contention — that the book's chapters measure.
+
+[github.com/alessandrobessi/thinking-in-cycles](https://github.com/alessandrobessi/thinking-in-cycles) · [read it](https://alessandrobessi.github.io/thinking-in-cycles/)

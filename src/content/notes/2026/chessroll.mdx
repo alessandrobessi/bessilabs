@@ -1,0 +1,22 @@
+---
+title: "Chessroll"
+date: "2026-07-31"
+room: "the-engine"
+type: "artifact"
+tags:
+  - chess
+  - video
+  - rendering
+  - stockfish
+  - cli
+summary: "A deterministic CLI that turns PGN games and FEN positions into polished short-form vertical videos, rendered from real Stockfish analysis and real chess rules rather than screen-recorded from a website."
+status: "field-note"
+featured: false
+visibility: "public"
+---
+
+Chessroll turns chess positions into short-form stories: a deterministic TypeScript/Node CLI that converts PGN games and FEN positions into vertical videos in the spirit of chess Shorts and Reels — but rendered from real Stockfish analysis and real chess rules, not screen-recorded from a website.
+
+The pipeline runs PGN or FEN through a chess model and Stockfish analysis, builds a story and scene timeline, and renders it frame by frame. Seven templates are working end to end — puzzle, blunder, brilliant, replay, game60, guess, and auto — each pausing on a real, engine-verified moment rather than a scripted one.
+
+[github.com/alessandrobessi/chessroll](https://github.com/alessandrobessi/chessroll) · [see demos](https://alessandrobessi.github.io/chessroll/)
