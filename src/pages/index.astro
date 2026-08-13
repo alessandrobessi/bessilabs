@@ -29,6 +29,16 @@ const roomsWithLatest = ROOMS.map((room) => {
     <h1 class="hero__name">Bessi Labs</h1>
     <p class="hero__tagline">{SITE.description}</p>
     <p class="hero__spine mono">{SITE.spine}</p>
+    <ul class="hero__spectrum" aria-label="Rooms of the lab">
+      {ROOMS.map((room) => (
+        <li>
+          <a href={`/rooms/${room.slug}`}>
+            <span class="hero__spectrum-dot" style={`background-color:${room.color}`}></span>
+            {room.name}
+          </a>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <!-- Rooms -->
@@ -84,7 +94,7 @@ const roomsWithLatest = ROOMS.map((room) => {
 
   .hero__name {
     font-size: 4rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: -0.02em;
     margin-bottom: var(--space-md);
     line-height: 1;
@@ -101,7 +111,43 @@ const roomsWithLatest = ROOMS.map((room) => {
     font-size: 0.82rem;
     color: var(--color-text-faint);
     max-width: 60ch;
+    margin-bottom: var(--space-md);
+  }
+
+  .hero__spectrum {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    padding: var(--space-md) 0 0;
+    margin: 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .hero__spectrum li {
     margin-bottom: 0;
+  }
+
+  .hero__spectrum a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .hero__spectrum a:hover {
+    color: var(--color-text);
+  }
+
+  .hero__spectrum-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 2px;
+    display: inline-block;
   }
 
   .section {

@@ -44,7 +44,7 @@ const formattedUpdated = updated?.toLocaleDateString('en-US', {
       <div class="note-header__meta">
         <time datetime={date.toISOString()} class="mono muted note-header__date">{formattedDate}</time>
         {roomData && (
-          <a href={`/rooms/${room}`} class="room-pill">{roomData.name}</a>
+          <a href={`/rooms/${room}`} class="room-pill" style={`--pill-tint:${roomData.tint}; --pill-color:${roomData.color}`}>{roomData.name}</a>
         )}
         <span class="type-label">{type}</span>
         <span class="status-badge">{status}</span>

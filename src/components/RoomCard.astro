@@ -9,7 +9,7 @@ interface Props {
 const { room, latestNote } = Astro.props;
 ---
 
-<article class="room-card">
+<article class="room-card" style={`--room-color:${room.color}`}>
   <a href={`/rooms/${room.slug}`} class="room-card__link" tabindex="-1" aria-hidden="true"></a>
   <div class="room-card__header">
     <h2 class="room-card__name">
@@ -33,6 +33,7 @@ const { room, latestNote } = Astro.props;
 <style>
   .room-card {
     position: relative;
+    overflow: hidden;
     padding: var(--space-md);
     background-color: white;
     border: 1px solid var(--color-border);
@@ -40,11 +41,24 @@ const { room, latestNote } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: var(--space-xs);
-    transition: border-color var(--transition);
+    transition: border-color var(--transition), transform var(--transition);
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 30px 30px 0;
+    border-color: transparent var(--room-color) transparent transparent;
   }
 
   .room-card:hover {
-    border-color: var(--color-accent);
+    border-color: var(--room-color);
+    transform: translateY(-2px);
   }
 
   .room-card__name {
@@ -58,7 +72,7 @@ const { room, latestNote } = Astro.props;
   }
 
   .room-card__name a:hover {
-    color: var(--color-accent-dark);
+    color: var(--room-color);
   }
 
   .room-card__tagline {
@@ -98,11 +112,12 @@ const { room, latestNote } = Astro.props;
 
   .room-card__latest-link {
     font-size: 0.85rem;
-    color: var(--color-text-muted);
+    color: var(--room-color);
+    font-weight: 500;
     text-decoration: none;
   }
 
   .room-card__latest-link:hover {
-    color: var(--color-accent-dark);
+    text-decoration: underline;
   }
 </style>

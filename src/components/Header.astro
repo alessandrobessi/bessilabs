@@ -6,7 +6,7 @@ const { pathname } = Astro.url;
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="/" class="site-header__name" aria-label={SITE.title + ' — home'}>
-      Bessi Labs
+      <span class="site-header__dot" aria-hidden="true"></span>Bessi Labs
     </a>
     <nav class="site-nav" aria-label="Main navigation">
       <ul role="list">
@@ -46,11 +46,21 @@ const { pathname } = Astro.url;
   .site-header__name {
     font-family: var(--font-heading);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-text);
     text-decoration: none;
     letter-spacing: -0.01em;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .site-header__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--color-accent);
   }
 
   .site-header__name:hover {
